@@ -1,6 +1,41 @@
-import React, { useReducer } from "react";
+import React from "react";
 import { login } from "./utils";
-import { loginReducer } from "./loginReducer";
+// import produce from "immer";
+import { useImmerReducer } from "use-immer";
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "login": {
+      state.error = "";
+      state.isLoading = true;
+      return;
+    }
+    case "success":
+      state.isLoggedIn = true;
+      return;
+
+    case "error":
+      state.username = "";
+      state.password = "";
+      state.isLoading = false;
+      state.error = "Incorrect username or password";
+      return;
+
+    case "logout":
+      state.username = "";
+      state.password = "";
+      state.isLoggedIn = false;
+      return;
+
+    case "field":
+      state[action.field] = action.value;
+      return;
+
+    default:
+      break;
+  }
+  return state;
+};
 
 const initialState = {
   username: "",
@@ -10,8 +45,10 @@ const initialState = {
   isLoggedIn: false
 };
 
-const LoginUseState = () => {
-  const [state, dispatch] = useReducer(loginReducer, initialState);
+// const curriedLoginImmerReducer = produce(reducer);
+
+const LoginImmer = () => {
+  const [state, dispatch] = useImmerReducer(reducer, initialState);
 
   const { username, password, isLoading, error, isLoggedIn } = state;
 
@@ -77,4 +114,4 @@ const LoginUseState = () => {
   );
 };
 
-export default LoginUseState;
+export default LoginImmer;

@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import LoginPlain from "./LoginPlain";
+import LoginImmer from "./LoginImmer";
 
 function App() {
   return (
     <div className="App">
-      <LoginPlain />
+      <LoginImmer />
     </div>
   );
 }
